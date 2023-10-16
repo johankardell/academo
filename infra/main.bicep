@@ -105,7 +105,7 @@ module externalapi 'modules/app_external.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'externalapi'
-    image: 'acrjkacademo.azurecr.io/externalapi:0.3'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.4'
     location: location
     name: 'externalapi' 
     aiconnectionstring: appinsights.outputs.connectionstring
