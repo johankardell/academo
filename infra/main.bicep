@@ -52,7 +52,19 @@ module environment 'modules/environment.bicep' = {
   }
 }
 
-module simpleapi 'modules/app_simpleapi.bicep' = {
+module appinsights 'modules/appinsights.bicep' = {
+  scope: resourceGroup
+  name: 'ai-academo'
+  params: {
+    location: location
+    name: 'ai-academo'
+    workspace_id: law.outputs.workspaceId 
+  }
+}
+
+// --------------------------------------------
+
+module simpleapi 'modules/app_external.bicep' = {
   scope: resourceGroup
   name: 'simpleapi'
   params: {
@@ -61,19 +73,41 @@ module simpleapi 'modules/app_simpleapi.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'simpleapi'
-    image: 'acrjkacademo.azurecr.io/simpleapi:0.1'
+    image: 'acrjkacademo.azurecr.io/simpleapi:0.2'
     location: location
     name: 'simpleapi' 
     aiconnectionstring: appinsights.outputs.connectionstring
   }
 }
 
-module appinsights 'modules/appinsights.bicep' = {
+module internalapi 'modules/app_internal.bicep' = {
   scope: resourceGroup
-  name: 'ai-academo'
+  name: 'internalapi'
   params: {
+    aca_env_id: environment.outputs.id
+    acrname: acrname
+    acrloginserver: acr.outputs.loginserver
+    acrsecret: acr.outputs.secret
+    containerName: 'internalapi'
+    image: 'acrjkacademo.azurecr.io/internalapi:0.1'
     location: location
-    name: 'ai-academo'
-    workspace_id: law.outputs.workspaceId 
+    name: 'internalapi' 
+    aiconnectionstring: appinsights.outputs.connectionstring
+  }
+}
+
+module externalapi 'modules/app_external.bicep' = {
+  scope: resourceGroup
+  name: 'externalapi'
+  params: {
+    aca_env_id: environment.outputs.id
+    acrname: acrname
+    acrloginserver: acr.outputs.loginserver
+    acrsecret: acr.outputs.secret
+    containerName: 'externalapi'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.1'
+    location: location
+    name: 'externalapi' 
+    aiconnectionstring: appinsights.outputs.connectionstring
   }
 }
