@@ -1,11 +1,8 @@
 targetScope = 'subscription'
 
 param location string = 'swedencentral'
-
 param acrname string = 'acrjkacademo'
-
 param lawname string = 'lajkacademo'
-
 param envname string = 'acaenvdemo'
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
@@ -67,5 +64,16 @@ module simpleapi 'modules/app_simpleapi.bicep' = {
     image: 'acrjkacademo.azurecr.io/simpleapi:0.1'
     location: location
     name: 'simpleapi' 
+    aiconnectionstring: appinsights.outputs.connectionstring
+  }
+}
+
+module appinsights 'modules/appinsights.bicep' = {
+  scope: resourceGroup
+  name: 'ai-academo'
+  params: {
+    location: location
+    name: 'ai-academo'
+    workspace_id: law.outputs.workspaceId 
   }
 }

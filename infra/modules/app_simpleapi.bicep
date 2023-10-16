@@ -6,6 +6,7 @@ param containerName string
 param acrname string
 param acrloginserver string
 param acrsecret string
+param aiconnectionstring string
 
 resource app 'Microsoft.App/containerApps@2023-05-01' = {
   name: name
@@ -44,24 +45,24 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
         {
           image: image
           name: containerName
-          // env: [
-          //   {
-          //     name: 'OTEL_EXPORTER_OTLP_ENDPOINT'
-          //     value: 'http://otel-collector-app'
-          //   }
-          //   {
-          //     name: 'OTEL_EXPORTER_OTLP_PROTOCOL'
-          //     value: 'http/protobuf'
-          //   }
-          //   {
-          //     name: 'USE_CONSOLE_LOG_OUTPUT'
-          //     value: 'true'
-          //   }
-          //   {
-          //     name: 'APPLICATION_INSIGHTS_CONNECTION_STRING'
-          //     value: 'InstrumentationKey=da9c02b9-ef27-4705-a109-e2eed585c6c0;IngestionEndpoint=https://swedencentral-0.in.applicationinsights.azure.com/'
-          //   }
-          // ]
+          env: [
+            // {
+            //   name: 'OTEL_EXPORTER_OTLP_ENDPOINT'
+            //   value: 'http://otel-collector-app'
+            // }
+            // {
+            //   name: 'OTEL_EXPORTER_OTLP_PROTOCOL'
+            //   value: 'http/protobuf'
+            // }
+            // {
+            //   name: 'USE_CONSOLE_LOG_OUTPUT'
+            //   value: 'true'
+            // }
+            {
+              name: 'APPLICATION_INSIGHTS_CONNECTION_STRING'
+              value: aiconnectionstring
+            }
+          ]
           resources:{
             cpu: json('.25')
             memory: '.5Gi'

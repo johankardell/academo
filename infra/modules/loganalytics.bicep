@@ -14,3 +14,4 @@ resource loganalytics_workspace 'Microsoft.OperationalInsights/workspaces@2022-1
 
 output customerId string = loganalytics_workspace.properties.customerId
 output sharedKey string = loganalytics_workspace.listKeys().primarySharedKey
+output workspaceId string = loganalytics_workspace.id

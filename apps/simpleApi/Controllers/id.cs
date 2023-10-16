@@ -6,11 +6,6 @@ namespace simpleApi.Controllers;
 [Route("[controller]")]
 public class IDController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
     private readonly ILogger<IDController> _logger;
 
     public IDController(ILogger<IDController> logger)
