@@ -72,7 +72,7 @@ module simpleapi 'modules/app_external.bicep' = {
     acrname: acrname
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
-    containerName: 'simpleapi'
+    containerName: 'externalapi'
     image: 'acrjkacademo.azurecr.io/simpleapi:0.2'
     location: location
     name: 'simpleapi' 
@@ -105,7 +105,7 @@ module externalapi 'modules/app_external.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'externalapi'
-    image: 'acrjkacademo.azurecr.io/externalapi:0.1'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.3'
     location: location
     name: 'externalapi' 
     aiconnectionstring: appinsights.outputs.connectionstring
