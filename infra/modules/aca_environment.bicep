@@ -6,6 +6,9 @@ param laSharedKey string
 
 param subnetId string
 
+param aiconnectionstring string
+param aiinstrumentationkey string
+
 resource aca_env 'Microsoft.App/managedEnvironments@2023-05-01' = {
   name: name
   location: location
@@ -27,8 +30,9 @@ resource aca_env 'Microsoft.App/managedEnvironments@2023-05-01' = {
       infrastructureSubnetId: subnetId
       internal: false
     }
-    // daprAIInstrumentationKey: appinsights.properties.InstrumentationKey
-    // daprAIConnectionString: appinsights.properties.ConnectionString
+    daprAIInstrumentationKey: aiinstrumentationkey
+    daprAIConnectionString: aiconnectionstring
+    infrastructureResourceGroup: 'rg-aca-demo-infra'
   }
 }
 

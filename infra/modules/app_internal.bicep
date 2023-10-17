@@ -22,10 +22,10 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
         external: false
         targetPort: 80
       }
-      // dapr: {
-      //   enabled: true
-      //   appId: 'credit-api'
-      // }
+      dapr: {
+        enabled: true
+        appId: name
+      }
       secrets: [
         {
           name: 'registry-password'
@@ -46,18 +46,18 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
           image: image
           name: containerName
           env: [
-            // {
-            //   name: 'OTEL_EXPORTER_OTLP_ENDPOINT'
-            //   value: 'http://otel-collector-app'
-            // }
-            // {
-            //   name: 'OTEL_EXPORTER_OTLP_PROTOCOL'
-            //   value: 'http/protobuf'
-            // }
-            // {
-            //   name: 'USE_CONSOLE_LOG_OUTPUT'
-            //   value: 'true'
-            // }
+            {
+              name: 'OTEL_EXPORTER_OTLP_ENDPOINT'
+              value: 'http://otel-collector-app'
+            }
+            {
+              name: 'OTEL_EXPORTER_OTLP_PROTOCOL'
+              value: 'http/protobuf'
+            }
+            {
+              name: 'USE_CONSOLE_LOG_OUTPUT'
+              value: 'true'
+            }
             {
               name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
               value: aiconnectionstring

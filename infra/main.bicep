@@ -4,6 +4,10 @@ param location string = 'swedencentral'
 param acrname string = 'acrjkacademo'
 param lawname string = 'lajkacademo'
 param envname string = 'acaenvdemo'
+param vnetname string = 'acavnet'
+param storageName string = 'stjkacademo'
+param ainame string = 'ai-academo'
+param daprstorageName string = 'dapr-storage'
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: 'rg-aca-demo'
@@ -30,17 +34,17 @@ module law 'modules/loganalytics.bicep' = {
 
 module vnet 'modules/vnet.bicep' = {
   scope: resourceGroup
-  name: 'acavnet'
+  name: vnetname
   params: {
     addressPrefix: '192.168.0.0/23' 
     location: location
-    name: 'acavnet'
+    name: vnetname
     subnetAddressPrefix: '192.168.0.0/26' 
     subnetName: 'acasubnet'
   }
 }
 
-module environment 'modules/environment.bicep' = {
+module aca_env 'modules/aca_environment.bicep' = {
   scope: resourceGroup
   name: envname
   params: {
@@ -49,26 +53,48 @@ module environment 'modules/environment.bicep' = {
     location: location
     name: envname
     subnetId: vnet.outputs.subnetId
+    aiconnectionstring: appinsights.outputs.connectionstring
+    aiinstrumentationkey: appinsights.outputs.instrumentationkey
   }
 }
 
 module appinsights 'modules/appinsights.bicep' = {
   scope: resourceGroup
-  name: 'ai-academo'
+  name: ainame
   params: {
     location: location
-    name: 'ai-academo'
+    name: ainame
     workspace_id: law.outputs.workspaceId 
   }
 }
 
+// module storageaccount 'modules/storageaccount.bicep' = {
+//   scope: resourceGroup
+//   name: storageName
+//   params: {
+//     location: location 
+//     name: storageName
+//   }
+// }
+
+// module daprstorage 'modules/dapr_storage.bicep' = {
+//   scope: resourceGroup 
+//   name: daprstorageName
+//   params: {
+//     acaenvname: aca_env.name
+//     name: daprstorageName
+//     saaccountkey: storageaccount.outputs.accesskey
+//     saname: storageaccount.name
+//     sasharename: storageaccount.outputs.filesharename
+//   }
+// }
 // --------------------------------------------
 
 module simpleapi 'modules/app_external.bicep' = {
   scope: resourceGroup
   name: 'simpleapi'
   params: {
-    aca_env_id: environment.outputs.id
+    aca_env_id: aca_env.outputs.id
     acrname: acrname
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
@@ -84,7 +110,7 @@ module internalapi 'modules/app_internal.bicep' = {
   scope: resourceGroup
   name: 'internalapi'
   params: {
-    aca_env_id: environment.outputs.id
+    aca_env_id: aca_env.outputs.id
     acrname: acrname
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
@@ -100,7 +126,7 @@ module externalapi 'modules/app_external.bicep' = {
   scope: resourceGroup
   name: 'externalapi'
   params: {
-    aca_env_id: environment.outputs.id
+    aca_env_id: aca_env.outputs.id
     acrname: acrname
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
