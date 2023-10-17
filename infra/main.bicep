@@ -8,6 +8,7 @@ param vnetname string = 'acavnet'
 param storageName string = 'stjkacademo'
 param ainame string = 'ai-academo'
 param daprstorageName string = 'dapr-storage'
+param kvname string = 'kv-aca-demo231019'
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: 'rg-aca-demo'
@@ -68,43 +69,40 @@ module appinsights 'modules/appinsights.bicep' = {
   }
 }
 
-// module storageaccount 'modules/storageaccount.bicep' = {
-//   scope: resourceGroup
-//   name: storageName
-//   params: {
-//     location: location 
-//     name: storageName
-//   }
-// }
-
-// module daprstorage 'modules/dapr_storage.bicep' = {
-//   scope: resourceGroup 
-//   name: daprstorageName
-//   params: {
-//     acaenvname: aca_env.name
-//     name: daprstorageName
-//     saaccountkey: storageaccount.outputs.accesskey
-//     saname: storageaccount.name
-//     sasharename: storageaccount.outputs.filesharename
-//   }
-// }
-// --------------------------------------------
-
-module simpleapi 'modules/app_external.bicep' = {
+module storageaccount 'modules/storageaccount.bicep' = {
   scope: resourceGroup
-  name: 'simpleapi'
+  name: storageName
   params: {
-    aca_env_id: aca_env.outputs.id
-    acrname: acrname
-    acrloginserver: acr.outputs.loginserver
-    acrsecret: acr.outputs.secret
-    containerName: 'externalapi'
-    image: 'acrjkacademo.azurecr.io/simpleapi:0.2'
-    location: location
-    name: 'simpleapi' 
-    aiconnectionstring: appinsights.outputs.connectionstring
+    location: location 
+    name: storageName
+    miClientId: internalapi.outputs.miClientId
   }
 }
+
+module daprstorage 'modules/dapr_storage.bicep' = {
+  scope: resourceGroup 
+  name: daprstorageName
+  params: {
+    acaenvname: aca_env.name
+    name: daprstorageName
+    saname: storageaccount.name
+    miClientId: internalapi.outputs.miClientId
+  }
+}
+
+// module keyvault 'modules/keyvault.bicep' = {
+//   scope: resourceGroup
+//   name: 'kv-aca-demo'
+//   params: {
+//     location: location
+//     name: kvname
+//     miClientId: internalapi.outputs.miClientId
+//     secretName: 'mysecret'
+//     secretValue: 'abc123'
+//   }
+// }
+
+// --------------------------------------------
 
 module internalapi 'modules/app_internal.bicep' = {
   scope: resourceGroup
