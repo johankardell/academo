@@ -16,10 +16,13 @@ public class IdController : ControllerBase
     [HttpGet(Name = "GetId")]
     public IEnumerable<Id> Get()
     {
+        var id = Guid.NewGuid().ToString();
+        Console.WriteLine($"Generating Id: {id}");
+
         return Enumerable.Range(1, 5).Select(index => new Id
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Guid = Guid.NewGuid().ToString()
+            Guid = id
         })
         .ToArray();
     }

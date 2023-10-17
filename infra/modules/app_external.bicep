@@ -59,7 +59,7 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
             //   value: 'true'
             // }
             {
-              name: 'APPLICATION_INSIGHTS_CONNECTION_STRING'
+              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
               value: aiconnectionstring
             }
           ]

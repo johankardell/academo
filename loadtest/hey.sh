@@ -1,0 +1,1 @@
+hey -n 100000 -c 100 -m GET https://externalapi.purplesmoke-18e8b4f0.swedencentral.azurecontainerapps.io/id
