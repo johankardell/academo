@@ -90,17 +90,17 @@ module daprstorage 'modules/dapr_storage.bicep' = {
   }
 }
 
-// module keyvault 'modules/keyvault.bicep' = {
-//   scope: resourceGroup
-//   name: 'kv-aca-demo'
-//   params: {
-//     location: location
-//     name: kvname
-//     miClientId: internalapi.outputs.miClientId
-//     secretName: 'mysecret'
-//     secretValue: 'abc123'
-//   }
-// }
+module keyvault 'modules/keyvault.bicep' = {
+  scope: resourceGroup
+  name: 'kv-aca-demo'
+  params: {
+    location: location
+    name: kvname
+    miClientId: internalapi.outputs.miClientId
+    secretName: 'mysecret'
+    secretValue: 'abc123'
+  }
+}
 
 // --------------------------------------------
 
