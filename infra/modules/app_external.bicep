@@ -25,6 +25,8 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
       dapr: {
         enabled: true
         appId: name
+        appProtocol: 'http'
+        enableApiLogging: true
       }
       secrets: [
         {

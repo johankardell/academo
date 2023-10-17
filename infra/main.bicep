@@ -115,7 +115,7 @@ module internalapi 'modules/app_internal.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'internalapi'
-    image: 'acrjkacademo.azurecr.io/internalapi:0.1'
+    image: 'acrjkacademo.azurecr.io/internalapi:0.2'
     location: location
     name: 'internalapi' 
     aiconnectionstring: appinsights.outputs.connectionstring
@@ -131,7 +131,7 @@ module externalapi 'modules/app_external.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'externalapi'
-    image: 'acrjkacademo.azurecr.io/externalapi:0.7'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.10'
     location: location
     name: 'externalapi' 
     aiconnectionstring: appinsights.outputs.connectionstring

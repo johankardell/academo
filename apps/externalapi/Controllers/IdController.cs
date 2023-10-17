@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Dapr.Client;
+using apps.Contracts;
 
 namespace apps.Controllers;
 
@@ -7,23 +9,30 @@ namespace apps.Controllers;
 public class IdController : ControllerBase
 {
     private readonly ILogger<IdController> _logger;
+    private readonly DaprClient _daprClient;
 
-    public IdController(ILogger<IdController> logger)
+    public IdController(ILogger<IdController> logger, DaprClient daprClient)
     {
         _logger = logger;
+        _daprClient = daprClient;
     }
 
     [HttpGet(Name = "GetId")]
-    public IEnumerable<Id> Get()
+    public async Task<IEnumerable<Id>> Get()
     {
-        var id = Guid.NewGuid().ToString();
-        Console.WriteLine($"Generating Id: {id}");
+        Console.WriteLine($"Calling backend service");
 
-        return Enumerable.Range(1, 5).Select(index => new Id
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Guid = id
-        })
-        .ToArray();
+        var result = await _daprClient.InvokeMethodAsync<IEnumerable<GetIdResponse>>(HttpMethod.Get,"internalapi", "id");
+        var resultArray = result.ToArray();
+
+        Console.WriteLine($"Backend service returned {resultArray.Length} results");
+
+        Console.WriteLine($"First element: {resultArray[0].Date} {resultArray[0].Guid}");
+
+        return Enumerable.Range(1, resultArray.Length).Select(index =>
+        new Id(){
+            Date = resultArray[index-1].Date,
+            Guid = resultArray[index-1].Guid
+        }).ToArray();
     }
 }
