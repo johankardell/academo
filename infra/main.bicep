@@ -6,9 +6,10 @@ param lawname string = 'lajkacademo'
 param envname string = 'acaenvdemo'
 param vnetname string = 'acavnet'
 param storageName string = 'stjkacademo'
+param storagedaprname string = 'storage'
 param ainame string = 'ai-academo'
-param daprstorageName string = 'dapr-storage'
 param kvname string = 'kv-aca-demo231019'
+param kvdaprname string = 'keyvault'
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: 'rg-aca-demo'
@@ -37,10 +38,10 @@ module vnet 'modules/vnet.bicep' = {
   scope: resourceGroup
   name: vnetname
   params: {
-    addressPrefix: '192.168.0.0/23' 
+    addressPrefix: '192.168.0.0/23'
     location: location
     name: vnetname
-    subnetAddressPrefix: '192.168.0.0/26' 
+    subnetAddressPrefix: '192.168.0.0/26'
     subnetName: 'acasubnet'
   }
 }
@@ -65,7 +66,7 @@ module appinsights 'modules/appinsights.bicep' = {
   params: {
     location: location
     name: ainame
-    workspace_id: law.outputs.workspaceId 
+    workspace_id: law.outputs.workspaceId
   }
 }
 
@@ -73,20 +74,11 @@ module storageaccount 'modules/storageaccount.bicep' = {
   scope: resourceGroup
   name: storageName
   params: {
-    location: location 
+    location: location
     name: storageName
-    miClientId: internalapi.outputs.miClientId
-  }
-}
-
-module daprstorage 'modules/dapr_storage.bicep' = {
-  scope: resourceGroup 
-  name: daprstorageName
-  params: {
     acaenvname: aca_env.name
-    name: daprstorageName
-    saname: storageaccount.name
     miClientId: internalapi.outputs.miClientId
+    storagedaprname: storagedaprname
   }
 }
 
@@ -96,9 +88,11 @@ module keyvault 'modules/keyvault.bicep' = {
   params: {
     location: location
     name: kvname
-    miClientId: internalapi.outputs.miClientId
+    acaenvname: aca_env.name
     secretName: 'mysecret'
     secretValue: 'abc123'
+    miClientId: internalapi.outputs.miClientId
+    keyvaultdaprname: kvdaprname
   }
 }
 
@@ -113,9 +107,9 @@ module internalapi 'modules/app_internal.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'internalapi'
-    image: 'acrjkacademo.azurecr.io/internalapi:0.2'
+    image: 'acrjkacademo.azurecr.io/internalapi:0.5'
     location: location
-    name: 'internalapi' 
+    name: 'internalapi'
     aiconnectionstring: appinsights.outputs.connectionstring
   }
 }
@@ -129,9 +123,9 @@ module externalapi 'modules/app_external.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'externalapi'
-    image: 'acrjkacademo.azurecr.io/externalapi:0.10'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.12'
     location: location
-    name: 'externalapi' 
+    name: 'externalapi'
     aiconnectionstring: appinsights.outputs.connectionstring
   }
 }

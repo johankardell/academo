@@ -10,4 +10,7 @@ public class GetIdResponse
 
     [JsonPropertyName("Guid")]
     public string? Guid { get; set; }
+
+    [JsonPropertyName("Secret")]
+    public string? Secret { get; set; }
 }

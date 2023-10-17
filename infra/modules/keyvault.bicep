@@ -3,6 +3,12 @@ param location string
 param secretName string
 param secretValue string
 param miClientId string
+param acaenvname string
+param keyvaultdaprname string
+
+resource acaenv 'Microsoft.App/managedEnvironments@2023-05-02-preview' existing = {
+  name: acaenvname
+}
 
 resource keyvault 'Microsoft.KeyVault/vaults@2023-02-01' = {
   name: name
@@ -31,10 +37,30 @@ resource secretOfficerRoleDefinition 'Microsoft.Authorization/roleDefinitions@20
 }
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(resourceGroup().id, secretOfficerRoleDefinition.id)
+  name: guid(resourceGroup().id, miClientId, secretOfficerRoleDefinition.id)
   properties: {
     roleDefinitionId: secretOfficerRoleDefinition.id
     principalId: miClientId
     principalType: 'ServicePrincipal'
+  }
+}
+
+resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01' = {
+  name: keyvaultdaprname
+  parent: acaenv
+  properties: {
+    componentType: 'secretstores.azure.keyvault'
+    version: 'v1'
+    ignoreErrors: false
+    initTimeout: '5s'
+    metadata: [
+      {
+        name: 'vaultName'
+        value: name
+      }
+    ]
+    scopes: [
+      'internalapi'
+    ]
   }
 }
