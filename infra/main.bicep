@@ -6,10 +6,10 @@ param lawname string = 'lajkacademo'
 param envname string = 'acaenvdemo'
 param vnetname string = 'acavnet'
 param storageName string = 'stjkacademo'
-param storagedaprname string = 'storage'
+param storagedaprname string = 'mystorage'
 param ainame string = 'ai-academo'
 param kvname string = 'kv-aca-demo231019'
-param kvdaprname string = 'keyvault'
+param kvdaprname string = 'mysecretstore'
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: 'rg-aca-demo'
@@ -107,7 +107,7 @@ module internalapi 'modules/app_internal.bicep' = {
     acrloginserver: acr.outputs.loginserver
     acrsecret: acr.outputs.secret
     containerName: 'internalapi'
-    image: 'acrjkacademo.azurecr.io/internalapi:0.5'
+    image: 'acrjkacademo.azurecr.io/internalapi:0.8'
     location: location
     name: 'internalapi'
     aiconnectionstring: appinsights.outputs.connectionstring

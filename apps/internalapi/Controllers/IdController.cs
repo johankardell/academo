@@ -19,24 +19,32 @@ public class IdController : ControllerBase
     [HttpGet(Name = "GetId")]
     public async Task<IEnumerable<Id>> Get()
     {
-        var id = Guid.NewGuid().ToString();
-        Console.WriteLine($"Generating Id: {id} at {DateTime.Now}");
-
         var secret = await GetSecret();
+        Console.WriteLine($"Secret: {secret}");
 
-        return Enumerable.Range(1, 5).Select(index => new Id
+        var result = Enumerable.Range(1, 5).Select(index => new Id
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Guid = id,
+            Guid = Guid.NewGuid().ToString(),
             Secret = secret
         })
         .ToArray();
+
+        Console.WriteLine($"Generating Id: {result.First().Guid} at {DateTime.Now}");
+
+        await LogToStorage(result);
+
+        return result;
     }
 
     private async Task<string> GetSecret()
     {
-        // var metadata = new Dictionary<string, string> { ["version_id"] = "1" };
-        Dictionary<string, string> secrets = await _daprClient.GetSecretAsync("keyvault", "mysecret");
+        Dictionary<string, string> secrets = await _daprClient.GetSecretAsync("mysecretstore", "mysecret");
         return secrets["mysecret"];
+    }
+
+    private async Task LogToStorage(IEnumerable<Id> ids)
+    {
+        await _daprClient.SaveStateAsync("mystorage", DateTime.Now.ToString("yyyyMMddHHmm"), ids);
     }
 }
