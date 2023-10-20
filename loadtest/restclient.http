@@ -1,0 +1,9 @@
+#Build for VS Code extension Rest client (by Huachao Mao)
+
+GET https://externalapi.ashypond-da3bf381.swedencentral.azurecontainerapps.io/id
+content-type: application/json
+
+{
+    "value": 10,
+    "transactionDate": "2022-02-06"
+}

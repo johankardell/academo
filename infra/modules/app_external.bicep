@@ -17,7 +17,7 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
   properties: {
     managedEnvironmentId: aca_env_id
     configuration: {
-      activeRevisionsMode: 'single'
+      activeRevisionsMode: 'Multiple'
       ingress: {
         external: true
         targetPort: 80
@@ -65,7 +65,7 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
               value: aiconnectionstring
             }
           ]
-          resources:{
+          resources: {
             cpu: json('.25')
             memory: '.5Gi'
           }
@@ -73,8 +73,17 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
       ]
       scale: {
         minReplicas: 1
-        maxReplicas: 1
-        rules: []
+        maxReplicas: 100
+        rules: [
+          {
+            name: 'http'
+            http: {
+              metadata: {
+                concurrentRequests: '25'
+              }
+            }
+          }
+        ]
       }
     }
   }
