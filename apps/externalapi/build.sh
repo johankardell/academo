@@ -1,1 +1,1 @@
-az acr build --registry acrjkacademo --image externalapi:0.12 . -f Dockerfile
+az acr build --registry acrjkacademo --image externalapi:0.20 . -f Dockerfile

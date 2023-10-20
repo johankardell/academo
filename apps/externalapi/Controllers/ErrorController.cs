@@ -25,8 +25,6 @@ public class ErrorController : ControllerBase
             _logger.LogError(ex, "This is an exception");
 
             return StatusCode(500, ex.Message);
-        }
-        
-        return Ok("Ok");
+        }        
     }
 }

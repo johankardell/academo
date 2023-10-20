@@ -26,7 +26,5 @@ public class ErrorController : ControllerBase
 
             return StatusCode(500, ex.Message);
         }
-        
-        return Ok("Ok");
     }
 }
