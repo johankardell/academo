@@ -1,5 +1,5 @@
 param name string
-param location string
+param location string = resourceGroup().location
 param addressPrefix string
 param acaSubnetName string
 param acaSubnetAddressPrefix string
@@ -41,3 +41,4 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
 }
 
 output subnetId string = vnet.properties.subnets[0].id
+output appgwSubnetId string = vnet.properties.subnets[1].id

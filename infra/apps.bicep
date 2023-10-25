@@ -1,20 +1,20 @@
 targetScope = 'resourceGroup'
 
-param location string = 'swedencentral'
-param acrname string = 'acrjkacademo'
-param storageName string = 'stjkacademo'
-param storagedaprname string = 'mystorage'
-param kvname string = 'kv-aca-demo231025'
-param kvdaprname string = 'mysecretstore'
-param acaEnvName string = 'acaenvdemo'
-param ainame string = 'ai-academo'
+param location string = resourceGroup().location
+param acrname string
+param storageName string
+param storagedaprname string
+param kvname string
+param kvdaprname string
+param acaEnvName string
+param ainame string
 
 resource aca_env 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
   name: acaEnvName
 }
 
 resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
- name: acrname
+  name: acrname
 }
 
 resource appinsights 'Microsoft.Insights/components@2020-02-02' existing = {

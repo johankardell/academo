@@ -1,5 +1,5 @@
 param name string
-param location string
+param location string = resourceGroup().location
 param workspace_id string
 
 resource appinsights 'Microsoft.Insights/components@2020-02-02' = {

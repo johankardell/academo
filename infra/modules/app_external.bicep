@@ -1,4 +1,4 @@
-param location string
+param location string = resourceGroup().location
 param name string
 param aca_env_id string
 param image string
@@ -88,3 +88,5 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
     }
   }
 }
+
+output appurl string = app.properties.latestRevisionFqdn

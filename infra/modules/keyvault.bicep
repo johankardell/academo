@@ -1,5 +1,5 @@
 param name string
-param location string
+param location string = resourceGroup().location
 param secretName string
 param secretValue string
 param miClientId string

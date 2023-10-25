@@ -1,0 +1,10 @@
+using 'apps.bicep'
+
+param location = 'swedencentral'
+param acrname = 'acrjkacademo'
+param storageName = 'stjkacademo'
+param storagedaprname = 'mystorage'
+param kvname = 'kv-aca-demo231025'
+param kvdaprname = 'mysecretstore'
+param acaEnvName = 'acaenvdemo'
+param ainame = 'ai-academo'

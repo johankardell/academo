@@ -1,4 +1,4 @@
-param location string
+param location string = resourceGroup().location
 param name string
 param aca_env_id string
 param image string
