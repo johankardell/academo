@@ -1,0 +1,1 @@
+az deployment group create --template-file apps.bicep -n academo -g rg-aca-demo

@@ -1,8 +1,10 @@
 param name string
 param location string
 param addressPrefix string
-param subnetName string
-param subnetAddressPrefix string
+param acaSubnetName string
+param acaSubnetAddressPrefix string
+param appgwSubnetName string
+param appgwSubnetPrefix string
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
   name: name
@@ -15,9 +17,9 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
     }
     subnets: [
       {
-        name: subnetName
+        name: acaSubnetName
         properties: {
-          addressPrefix: subnetAddressPrefix
+          addressPrefix: acaSubnetAddressPrefix
           delegations: [
             {
               name: 'containerapps'
@@ -26,6 +28,12 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
               }
             }
           ]
+        }
+      }
+      {
+        name: appgwSubnetName
+        properties: {
+          addressPrefix: appgwSubnetPrefix
         }
       }
     ]

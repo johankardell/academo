@@ -1,1 +1,0 @@
-az acr build --registry acrjkacademo --image simpleapi:0.1 . -f Dockerfile
