@@ -60,8 +60,8 @@ module internalapi 'modules/app_internal.bicep' = {
   }
 }
 
-module externalapi 'modules/app_external.bicep' = {
-  name: 'externalapi'
+module externalapia 'modules/app_external.bicep' = {
+  name: 'externalapi-a'
   params: {
     aca_env_id: aca_env.id
     acrname: acrname
@@ -70,7 +70,23 @@ module externalapi 'modules/app_external.bicep' = {
     containerName: 'externalapi'
     image: 'acrjkacademo.azurecr.io/externalapi:0.1'
     location: location
-    name: 'externalapi'
+    name: 'externalapi-a'
     aiconnectionstring: appinsights.properties.ConnectionString
   }
 }
+
+module externalapib 'modules/app_external.bicep' = {
+  name: 'externalapi-b'
+  params: {
+    aca_env_id: aca_env.id
+    acrname: acrname
+    acrloginserver: acr.properties.loginServer
+    acrsecret: acr.listCredentials().passwords[0].value
+    containerName: 'externalapi'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.1'
+    location: location
+    name: 'externalapi-b'
+    aiconnectionstring: appinsights.properties.ConnectionString
+  }
+}
+

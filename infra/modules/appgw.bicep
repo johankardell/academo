@@ -3,7 +3,8 @@ param location string
 param subnetId string
 
 param pipname string = 'pip-${name}'
-param appurl string
+param appurla string
+param appurlb string
 
 resource pip 'Microsoft.Network/publicIPAddresses@2023-05-01' = {
   name: pipname
@@ -16,6 +17,7 @@ resource pip 'Microsoft.Network/publicIPAddresses@2023-05-01' = {
     publicIPAllocationMethod: 'Static'
   }
 }
+
 resource appgw 'Microsoft.Network/applicationGateways@2023-05-01' = {
   name: name
   location: location
@@ -60,7 +62,10 @@ resource appgw 'Microsoft.Network/applicationGateways@2023-05-01' = {
         properties: {
           backendAddresses: [
             {
-              fqdn: appurl
+              fqdn: appurla
+            }
+            {
+              fqdn: appurlb
             }
           ]
         }
