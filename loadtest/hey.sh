@@ -1,1 +1,1 @@
-hey -n 100000 -c 100 -m GET https://externalapi.jollydune-3066fc56.swedencentral.azurecontainerapps.io/id
+hey -n 100000 -c 100 -m GET https://externalapi.lemonpond-2f184610.swedencentral.azurecontainerapps.io/id

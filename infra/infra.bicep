@@ -64,24 +64,24 @@ module appinsights 'modules/appinsights.bicep' = {
   }
 }
 
-module appgw 'modules/appgw.bicep' = {
-  name: appgwname
-  params: {
-    name: appgwname
-    location: location
-    subnetId: vnet.outputs.appgwSubnetId
-    appurl: dummy_app.outputs.appurl
-  }
-}
+// module appgw 'modules/appgw.bicep' = {
+//   name: appgwname
+//   params: {
+//     name: appgwname
+//     location: location
+//     subnetId: vnet.outputs.appgwSubnetId
+//     appurl: dummy_app.outputs.appurl
+//   }
+// }
 
 // Add a dummy app just to setup the app gateway - will be overwritten by the real app later
-module dummy_app 'modules/app_dummy.bicep' = {
-  name: 'externalapi'
-  params: {
-    aca_env_id: aca_env.outputs.id
-    containerName: 'nginx'
-    image: 'nginx:latest'
-    name: 'externalapi'
-    location: location
-  }
-}
+// module dummy_app 'modules/app_dummy.bicep' = {
+//   name: 'externalapi'
+//   params: {
+//     aca_env_id: aca_env.outputs.id
+//     containerName: 'nginx'
+//     image: 'nginx:latest'
+//     name: 'externalapi'
+//     location: location
+//   }
+// }

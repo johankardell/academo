@@ -33,6 +33,7 @@ resource aca_env 'Microsoft.App/managedEnvironments@2023-05-01' = {
     daprAIInstrumentationKey: aiinstrumentationkey
     daprAIConnectionString: aiconnectionstring
     infrastructureResourceGroup: 'rg-aca-demo-infra'
+    zoneRedundant: true
   }
 }
 
