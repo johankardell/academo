@@ -1,1 +1,1 @@
-az acr build --registry acrjkacademo --image internalapi:0.1 . -f Dockerfile
+az acr build --registry acrjkacademo --image internalapi:0.3 . -f Dockerfile
