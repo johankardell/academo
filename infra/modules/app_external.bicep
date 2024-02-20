@@ -20,7 +20,7 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
       activeRevisionsMode: 'Multiple'
       ingress: {
         external: true
-        targetPort: 80
+        targetPort: 8080
       }
       dapr: {
         enabled: true

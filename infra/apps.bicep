@@ -53,7 +53,7 @@ module internalapi 'modules/app_internal.bicep' = {
     acrloginserver: acr.properties.loginServer
     acrsecret: acr.listCredentials().passwords[0].value
     containerName: 'internalapi'
-    image: 'acrjkacademo.azurecr.io/internalapi:0.4'
+    image: 'acrjkacademo.azurecr.io/internalapi:0.6'
     location: location
     name: 'internalapi'
     aiconnectionstring: appinsights.properties.ConnectionString
@@ -68,7 +68,7 @@ module externalapi 'modules/app_external.bicep' = {
     acrloginserver: acr.properties.loginServer
     acrsecret: acr.listCredentials().passwords[0].value
     containerName: 'externalapi'
-    image: 'acrjkacademo.azurecr.io/externalapi:0.4'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.6'
     location: location
     name: 'externalapi'
     aiconnectionstring: appinsights.properties.ConnectionString
