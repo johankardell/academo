@@ -2,9 +2,10 @@ param name string
 param location string = resourceGroup().location
 param secretName string
 param secretValue string
-param miClientId string
+param principalId string
 param acaenvname string
 param keyvaultdaprname string
+param clientid string
 
 resource acaenv 'Microsoft.App/managedEnvironments@2023-05-02-preview' existing = {
   name: acaenvname
@@ -37,10 +38,10 @@ resource secretOfficerRoleDefinition 'Microsoft.Authorization/roleDefinitions@20
 }
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(resourceGroup().id, miClientId, secretOfficerRoleDefinition.id)
+  name: guid(resourceGroup().id, principalId, secretOfficerRoleDefinition.id)
   properties: {
     roleDefinitionId: secretOfficerRoleDefinition.id
-    principalId: miClientId
+    principalId: principalId
     principalType: 'ServicePrincipal'
   }
 }
@@ -57,6 +58,10 @@ resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2022-03
       {
         name: 'vaultName'
         value: name
+      }
+      {
+        name: 'azureClientId'
+        value: clientid
       }
     ]
     scopes: [

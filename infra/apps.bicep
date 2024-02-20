@@ -21,14 +21,41 @@ resource appinsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: ainame
 }
 
+resource acaexternalid 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-07-31-preview' = {
+  name: 'mi-aca-external'
+  location: location
+}
+
+resource acainternalid 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-07-31-preview' = {
+  name: 'mi-aca-internal'
+  location: location
+}
+
+module acrRbacExternal 'modules/acrRbac.bicep' = {
+  name: 'acrRbacExternal'
+  params: {
+    acrname: acrname
+    principalId: acaexternalid.properties.principalId
+  }
+}
+
+module acrRbacInternal 'modules/acrRbac.bicep' = {
+  name: 'acrRbacInternal'
+  params: {
+    acrname: acrname
+    principalId: acainternalid.properties.principalId
+  }
+}
+
 module storageaccount 'modules/storageaccount.bicep' = {
   name: storageName
   params: {
     location: location
     name: storageName
     acaenvname: aca_env.name
-    miClientId: internalapi.outputs.miClientId
+    principalId: acainternalid.properties.principalId
     storagedaprname: storagedaprname
+    clientid: acainternalid.properties.clientId
   }
 }
 
@@ -40,18 +67,18 @@ module keyvault 'modules/keyvault.bicep' = {
     acaenvname: aca_env.name
     secretName: 'mysecret'
     secretValue: 'abc123'
-    miClientId: internalapi.outputs.miClientId
+    principalId: acainternalid.properties.principalId
     keyvaultdaprname: kvdaprname
+    clientid: acainternalid.properties.clientId
   }
 }
 
 module internalapi 'modules/app_internal.bicep' = {
   name: 'internalapi'
   params: {
+    uaid: acainternalid.id
     aca_env_id: aca_env.id
-    acrname: acrname
     acrloginserver: acr.properties.loginServer
-    acrsecret: acr.listCredentials().passwords[0].value
     containerName: 'internalapi'
     image: 'acrjkacademo.azurecr.io/internalapi:0.6'
     location: location
@@ -63,10 +90,9 @@ module internalapi 'modules/app_internal.bicep' = {
 module externalapi 'modules/app_external.bicep' = {
   name: 'externalapi'
   params: {
+    uaid: acaexternalid.id
     aca_env_id: aca_env.id
-    acrname: acrname
     acrloginserver: acr.properties.loginServer
-    acrsecret: acr.listCredentials().passwords[0].value
     containerName: 'externalapi'
     image: 'acrjkacademo.azurecr.io/externalapi:0.6'
     location: location

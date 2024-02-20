@@ -1,8 +1,9 @@
 param name string
 param location string = resourceGroup().location
-param miClientId string
+param principalId string
 param acaenvname string
 param storagedaprname string
+param clientid string
 
 resource sa 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: name
@@ -39,10 +40,10 @@ resource contributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018
 }
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(resourceGroup().id, miClientId, contributorRoleDefinition.id)
+  name: guid(resourceGroup().id, principalId, contributorRoleDefinition.id)
   properties: {
     roleDefinitionId: contributorRoleDefinition.id
-    principalId: miClientId
+    principalId: principalId
     principalType: 'ServicePrincipal'
   }
 }
@@ -67,6 +68,10 @@ resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2022-03
       {
         name: 'containerName'
         value: 'academo'
+      }
+      {
+        name: 'azureClientId'
+        value: clientid
       }
     ]
     scopes: [

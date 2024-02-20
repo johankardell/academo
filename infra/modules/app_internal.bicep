@@ -3,16 +3,18 @@ param name string
 param aca_env_id string
 param image string
 param containerName string
-param acrname string
 param acrloginserver string
-param acrsecret string
 param aiconnectionstring string
+param uaid string
 
 resource app 'Microsoft.App/containerApps@2023-05-01' = {
   name: name
   location: location
   identity: {
-    type: 'SystemAssigned'
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${uaid}': {}
+    }
   }
   properties: {
     managedEnvironmentId: aca_env_id
@@ -27,18 +29,12 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
         appId: name
         appProtocol: 'http'
         enableApiLogging: true
+        appPort: 8080
       }
-      secrets: [
-        {
-          name: 'registry-password'
-          value: acrsecret
-        }
-      ]
       registries: [
         {
-          username: acrname
-          passwordSecretRef: 'registry-password'
           server: acrloginserver
+          identity: uaid
         }
       ]
     }
@@ -88,5 +84,3 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
     }
   }
 }
-
-output miClientId string = app.identity.principalId
