@@ -1,6 +1,8 @@
 param name string
 param location string = resourceGroup().location
 param secretName string
+
+@secure()
 param secretValue string
 param principalId string
 param acaenvname string

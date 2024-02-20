@@ -79,7 +79,3 @@ resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2022-03
     ]
   }
 }
-
-
-output accesskey string = sa.listKeys().keys[0].value
-output filesharename string = fileshare.name

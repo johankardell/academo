@@ -13,4 +13,3 @@ resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
 }
 
 output loginserver string = acr.properties.loginServer
-output secret string = acr.listCredentials().passwords[0].value
