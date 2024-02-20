@@ -13,11 +13,13 @@ resource sa 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   kind: 'StorageV2'
   properties: {
     allowBlobPublicAccess: false
-    allowSharedKeyAccess: true
+    allowSharedKeyAccess: false
     publicNetworkAccess: 'Enabled'
     minimumTlsVersion: 'TLS1_2'
     supportsHttpsTrafficOnly: true
     accessTier: 'Hot'
+    defaultToOAuthAuthentication: true
+    allowCrossTenantReplication: false
   }
 }
 
