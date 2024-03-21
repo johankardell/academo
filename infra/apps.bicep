@@ -8,6 +8,10 @@ param kvname string
 param kvdaprname string
 param acaEnvName string
 param ainame string
+param secretname string
+
+@secure()
+param secretvalue string
 
 resource aca_env 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
   name: acaEnvName
@@ -65,8 +69,8 @@ module keyvault 'modules/keyvault.bicep' = {
     location: location
     name: kvname
     acaenvname: aca_env.name
-    secretName: 'mysecret'
-    secretValue: 'abc123'
+    secretName: secretname
+    secretValue: secretvalue
     principalId: acainternalid.properties.principalId
     keyvaultdaprname: kvdaprname
     clientid: acainternalid.properties.clientId
