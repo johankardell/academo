@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.2 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0.4 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 9090
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0.200 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0.204 AS build
 WORKDIR /src
 COPY ["externalapi.csproj", "."]
 RUN dotnet restore "./externalapi.csproj"
