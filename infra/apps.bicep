@@ -84,7 +84,7 @@ module internalapi 'modules/app_internal.bicep' = {
     aca_env_id: aca_env.id
     acrloginserver: acr.properties.loginServer
     containerName: 'internalapi'
-    image: 'acrjkacademo.azurecr.io/internalapi:0.6'
+    image: 'acrjkacademo.azurecr.io/internalapi:0.7'
     location: location
     name: 'internalapi'
     aiconnectionstring: appinsights.properties.ConnectionString
@@ -98,7 +98,7 @@ module externalapi 'modules/app_external.bicep' = {
     aca_env_id: aca_env.id
     acrloginserver: acr.properties.loginServer
     containerName: 'externalapi'
-    image: 'acrjkacademo.azurecr.io/externalapi:0.6'
+    image: 'acrjkacademo.azurecr.io/externalapi:0.7'
     location: location
     name: 'externalapi'
     aiconnectionstring: appinsights.properties.ConnectionString
