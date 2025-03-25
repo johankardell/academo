@@ -10,7 +10,7 @@ param acaSubnetName string
 param acaSubnetPrefix string
 param appgwSubnetName string
 param appgwSubnetPrefix string
-param appgwname string
+// param appgwname string
 param location string = resourceGroup().location
 
 module acr 'modules/acr.bicep' = {
@@ -45,8 +45,9 @@ module vnet 'modules/vnet.bicep' = {
 module aca_env 'modules/aca_environment.bicep' = {
   name: envname
   params: {
-    laCustomerId: law.outputs.customerId
-    laSharedKey: law.outputs.sharedKey
+    // laCustomerId: law.outputs.customerId
+    // laSharedKey: law.outputs.sharedKey
+    workspace_name: lawname
     name: envname
     subnetId: vnet.outputs.subnetId
     aiconnectionstring: appinsights.outputs.connectionstring
@@ -59,7 +60,7 @@ module appinsights 'modules/appinsights.bicep' = {
   name: ainame
   params: {
     name: ainame
-    workspace_id: law.outputs.workspaceId
+    workspace_name: lawname
     location: location
   }
 }

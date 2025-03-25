@@ -34,6 +34,44 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
         name: appgwSubnetName
         properties: {
           addressPrefix: appgwSubnetPrefix
+          networkSecurityGroup: {
+            id: nsg.id
+          }
+        }
+      }
+    ]
+  }
+}
+
+resource nsg 'Microsoft.Network/networkSecurityGroups@2023-05-01' = {
+  name: '${name}-nsg'
+  location: location
+  properties: {
+    securityRules: [
+      {
+        name: 'AllowHTTP'
+        properties: {
+          priority: 100
+          direction: 'Inbound'
+          access: 'Allow'
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'Internet'
+          sourcePortRange: '*'
+          destinationAddressPrefix: '*'
+          destinationPortRange: '80'
+        }
+      }
+      {
+        name: 'AllowHTTPS'
+        properties: {
+          priority: 200
+          direction: 'Inbound'
+          access: 'Allow'
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'Internet'
+          sourcePortRange: '*'
+          destinationAddressPrefix: '*'
+          destinationPortRange: '443'
         }
       }
     ]

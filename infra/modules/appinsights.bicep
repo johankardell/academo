@@ -1,6 +1,11 @@
 param name string
 param location string = resourceGroup().location
-param workspace_id string
+param workspace_name string
+
+resource la 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+  name: workspace_name
+}
+
 
 resource appinsights 'Microsoft.Insights/components@2020-02-02' = {
   name: name
@@ -8,7 +13,7 @@ resource appinsights 'Microsoft.Insights/components@2020-02-02' = {
   location: location
   properties: {
     Application_Type: 'web'
-    WorkspaceResourceId: workspace_id
+    WorkspaceResourceId: la.id
   }
 }
 

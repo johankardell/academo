@@ -1,23 +1,29 @@
 param name string
 param location string = resourceGroup().location
 
-param laCustomerId string
-param laSharedKey string
+// param laCustomerId string
+// param laSharedKey string
+
+param workspace_name string
 
 param subnetId string
 
 param aiconnectionstring string
 param aiinstrumentationkey string
 
-resource aca_env 'Microsoft.App/managedEnvironments@2023-05-01' = {
+resource la 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+  name: workspace_name
+}
+
+resource aca_env 'Microsoft.App/managedEnvironments@2024-10-02-preview' = {
   name: name
   location: location
   properties: {
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
-        customerId: laCustomerId
-        sharedKey: laSharedKey
+        customerId: la.properties.customerId
+        sharedKey: la.listKeys().primarySharedKey
       }
     }
     workloadProfiles: [
