@@ -13,7 +13,9 @@ param appgwSubnetPrefix string
 // param appgwname string
 param location string = resourceGroup().location
 
-module acr 'modules/acr.bicep' = {
+var deployACR = false
+
+module acr 'modules/acr.bicep' = if(deployACR) {
   name: acrname
   params: {
     name: acrname

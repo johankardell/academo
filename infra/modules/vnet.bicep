@@ -20,6 +20,9 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
         name: acaSubnetName
         properties: {
           addressPrefix: acaSubnetAddressPrefix
+          networkSecurityGroup: {
+            id: nsg.id
+          }
           delegations: [
             {
               name: 'containerapps'
