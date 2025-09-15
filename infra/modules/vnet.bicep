@@ -6,7 +6,7 @@ param acaSubnetAddressPrefix string
 param appgwSubnetName string
 param appgwSubnetPrefix string
 
-resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2024-01-01' = {
   name: name
   location: location
   properties: {
@@ -46,7 +46,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
   }
 }
 
-resource nsg 'Microsoft.Network/networkSecurityGroups@2023-05-01' = {
+resource nsg 'Microsoft.Network/networkSecurityGroups@2024-01-01' = {
   name: '${name}-nsg'
   location: location
   properties: {

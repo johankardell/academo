@@ -5,7 +5,7 @@ param acaenvname string
 param storagedaprname string
 param clientid string
 
-resource sa 'Microsoft.Storage/storageAccounts@2023-01-01' = {
+resource sa 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: name
   location: location
   sku: {
@@ -24,12 +24,12 @@ resource sa 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   }
 }
 
-resource fileservices 'Microsoft.Storage/storageAccounts/fileServices@2023-01-01' = {
+resource fileservices 'Microsoft.Storage/storageAccounts/fileServices@2023-05-01' = {
   parent: sa
   name: 'default'
 }
 
-resource fileshare 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-01-01' = {
+resource fileshare 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-05-01' = {
   name: 'ids'
   parent: fileservices
 }
@@ -39,7 +39,7 @@ resource contributorRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018
   name: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 }
 
-resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(resourceGroup().id, principalId, contributorRoleDefinition.id)
   properties: {
     roleDefinitionId: contributorRoleDefinition.id
@@ -48,11 +48,11 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-prev
   }
 }
 
-resource acaenv 'Microsoft.App/managedEnvironments@2023-05-02-preview' existing = {
+resource acaenv 'Microsoft.App/managedEnvironments@2024-03-01' existing = {
   name: acaenvname
 }
 
-resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01' = {
+resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = {
   name: storagedaprname
   parent: acaenv
   properties: {

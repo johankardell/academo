@@ -11,11 +11,11 @@ param subnetId string
 param aiconnectionstring string
 param aiinstrumentationkey string
 
-resource la 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+resource la 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
   name: workspace_name
 }
 
-resource aca_env 'Microsoft.App/managedEnvironments@2024-10-02-preview' = {
+resource aca_env 'Microsoft.App/managedEnvironments@2024-03-01' = {
   name: name
   location: location
   properties: {
