@@ -4,7 +4,7 @@ param aca_env_id string
 param image string
 param containerName string
 
-resource app 'Microsoft.App/containerApps@2023-05-01' = {
+resource app 'Microsoft.App/containerApps@2024-03-01' = {
   name: name
   location: location
   identity: {

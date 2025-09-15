@@ -9,7 +9,7 @@ param acaenvname string
 param keyvaultdaprname string
 param clientid string
 
-resource acaenv 'Microsoft.App/managedEnvironments@2023-05-02-preview' existing = {
+resource acaenv 'Microsoft.App/managedEnvironments@2024-03-01' existing = {
   name: acaenvname
 }
 
@@ -39,7 +39,7 @@ resource secretOfficerRoleDefinition 'Microsoft.Authorization/roleDefinitions@20
   name: 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
 }
 
-resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(resourceGroup().id, principalId, secretOfficerRoleDefinition.id)
   properties: {
     roleDefinitionId: secretOfficerRoleDefinition.id
@@ -48,7 +48,7 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-prev
   }
 }
 
-resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01' = {
+resource daprComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = {
   name: keyvaultdaprname
   parent: acaenv
   properties: {
