@@ -15,7 +15,7 @@ param internalapiversion string
 @secure()
 param secretvalue string
 
-resource aca_env 'Microsoft.App/managedEnvironments@2023-05-01' existing = {
+resource aca_env 'Microsoft.App/managedEnvironments@2024-03-01' existing = {
   name: acaEnvName
 }
 
@@ -27,12 +27,12 @@ resource appinsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: ainame
 }
 
-resource acaexternalid 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-07-31-preview' = {
+resource acaexternalid 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: 'mi-aca-external'
   location: location
 }
 
-resource acainternalid 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-07-31-preview' = {
+resource acainternalid 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: 'mi-aca-internal'
   location: location
 }
